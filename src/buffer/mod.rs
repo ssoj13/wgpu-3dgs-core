@@ -94,7 +94,7 @@ pub trait BufferWrapper: Into<wgpu::Buffer> {
         device.poll(poll_type)?;
         rx.await??;
 
-        let edits = bytemuck::allocation::pod_collect_to_vec(&buffer_slice.get_mapped_range());
+        let edits = bytemuck::allocation::pod_collect_to_vec(&buffer_slice.get_mapped_range()?);
         download.unmap();
 
         Ok(edits)

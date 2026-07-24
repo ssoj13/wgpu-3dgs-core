@@ -60,6 +60,10 @@ pub enum DownloadBufferError {
     Async(#[from] wgpu::BufferAsyncError),
     #[error("{0}")]
     Poll(#[from] wgpu::PollError),
+    // wgpu 30 made `BufferSlice::get_mapped_range` fallible (returns Result); surface that error
+    // rather than unwrapping, so a failed map is reported to the caller like the other download errors.
+    #[error("{0}")]
+    MapRange(#[from] wgpu::MapRangeError),
 }
 
 /// The error type for [`GaussiansBuffer`](crate::GaussiansBuffer) update functions.
